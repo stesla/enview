@@ -1,4 +1,5 @@
 import os
+import re
 
 import logging
 logger = logging.getLogger(__name__)
@@ -17,4 +18,5 @@ def logs(path):
     else:
         with openLog(path) as f:
             text = f.read()
+        text = re.sub(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]', '', text)
         return render_template('log.html', text=text)
