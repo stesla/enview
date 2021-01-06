@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+import os
+import sys
+sys.path.insert(1, os.path.dirname(os.path.dirname(__file__)))
+
+from dotenv import load_dotenv
+load_dotenv()
+
+from enview import app
+from waitress import serve
+serve(app, listen=os.getenv("HTTP_ADDR","*:8080"))

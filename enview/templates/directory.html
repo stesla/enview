@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="my-20 mx-auto max-w-sm">
+    <ul class="border border-gray-500 rounded-md overflow-hidden">
+    {% for file in files %}
+      <li class="{% if loop.index is odd %}bg-gray-100{% else %}bg-gray-300{% endif %}">
+        <div class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 text-center">
+          <a href="/{{ file }}">{{ file }}</a>
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+</main>
+{% endblock %}
