@@ -17,3 +17,10 @@ def test_parse_bold():
 
 def test_parse_multiple_sequences():
     assert parse('\x1b[1m\x1b[33mfoo') == [Text('foo', bold=True, fg='yellow')]
+
+def test_html_plain():
+    assert Text('foo').to_html() == 'foo'
+
+def test_html_all_attributes():
+    assert Text('foo', bg='yellow', fg='red', bold=True).to_html() == \
+            '<span style="background-color: yellow; color: red; font-weight: bold">foo</span>'

@@ -7,7 +7,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 from .logs import isDir, listLogs, openLog
-from .markup import strip
+from .markup import parse
 
 @app.route('/', methods=['GET'], defaults={'path': ''})
 @app.route('/<path:path>')
@@ -18,5 +18,5 @@ def logs(path):
     else:
         with openLog(path) as f:
             text = f.read()
-        text = strip(text)
-        return render_template('log.html', text=text)
+        html = ''.join(t.to_html() for t in parse(text))
+        return render_template('log.html', html=html)

@@ -16,21 +16,6 @@ def parse(text):
     ts.append(t)
     return ts
 
-class Text:
-    def __init__(self, text='', bg=None, fg=None, bold=False):
-        self.text = text
-        self.bg = bg
-        self.fg = fg
-        self.bold = bold
-
-    def __repr__(self):
-        return f"Text('{self.text}', bg={self.bg}, fg={self.fg}, bold={self.bold})"
-
-    def __eq__(self, obj):
-        if isinstance(obj, Text):
-            return self.text == obj.text and self.bg == obj.bg and self.fg == obj.fg and self.bold == obj.bold
-        return False
-
 class ParseError(Exception):
     pass
 
@@ -71,7 +56,7 @@ class parseCSI:
             return t, self
 
 simplecolor = [
-    'black',
+    '#505050',
     'red',
     'green',
     'yellow',
@@ -80,3 +65,32 @@ simplecolor = [
     'cyan',
     'white',
 ]
+
+class Text:
+    def __init__(self, text='', bg=None, fg=None, bold=False):
+        self.text = text
+        self.bg = bg
+        self.fg = fg
+        self.bold = bold
+
+    def __repr__(self):
+        return f"Text('{self.text}', bg={self.bg}, fg={self.fg}, bold={self.bold})"
+
+    def __eq__(self, obj):
+        if isinstance(obj, Text):
+            return self.text == obj.text and self.bg == obj.bg and self.fg == obj.fg and self.bold == obj.bold
+        return False
+
+    def to_html(self):
+        styles = []
+        if self.bg:
+            styles.append(f'background-color: {self.bg}')
+        if self.fg:
+            styles.append(f'color: {self.fg}')
+        if self.bold:
+            styles.append('font-weight: bold')
+        if not styles:
+            return self.text
+        else:
+            style = '; '.join(styles)
+            return f'<span style="{style}">{self.text}</span>'
