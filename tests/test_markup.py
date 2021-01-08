@@ -24,3 +24,6 @@ def test_html_plain():
 def test_html_all_attributes():
     assert Text('foo', bg='yellow', fg='red', bold=True).to_html() == \
             '<span style="background-color: yellow; color: red; font-weight: bold">foo</span>'
+
+def test_html_escaped():
+    assert Text('<title>').to_html() == '&lt;title&gt;'

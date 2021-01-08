@@ -1,3 +1,4 @@
+import html
 import re
 
 class Text:
@@ -16,6 +17,7 @@ class Text:
         return False
 
     def to_html(self):
+        escaped = html.escape(self.text)
         styles = []
         if self.bg:
             styles.append(f'background-color: {self.bg}')
@@ -24,10 +26,10 @@ class Text:
         if self.bold:
             styles.append('font-weight: bold')
         if not styles:
-            return self.text
+            return escaped
         else:
             style = '; '.join(styles)
-            return f'<span style="{style}">{self.text}</span>'
+            return f'<span style="{style}">{escaped}</span>'
 
 def parse(text):
     if not text:
