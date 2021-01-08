@@ -13,4 +13,4 @@ def listLogs(path):
 
 def openLog(path):
     p = os.path.join(root, path)
-    return open(p, mode='r')
+    return open(p, mode='r', encoding='utf8')
