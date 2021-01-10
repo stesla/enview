@@ -13,8 +13,8 @@ from .markup import parse
 @app.route('/<path:path>')
 def logs(path):
     if isDir(path):
-        files = listLogs(path)
-        return render_template('directory.html', files=files)
+        files = [os.path.join(path, file) for file in listLogs(path)]
+        return render_template('directory.html', files=sorted(files))
     else:
         with openLog(path) as f:
             text = f.read()
