@@ -1,4 +1,5 @@
 import os
+import time
 from pathlib import Path
 
 LOG_ROOT = Path(os.getenv("LOGS_ROOT", "~/rplogs")).expanduser()
@@ -26,7 +27,7 @@ class Log:
 
     def __lt__(self, obj):
         if isinstance(obj, Log):
-            return self.mtime < obj.mtime
+            return self.path < obj.path
         return NotImplemented
 
     @property
@@ -34,8 +35,12 @@ class Log:
         return logPath(self.path)
 
     @property
+    def isdir(self):
+        return os.path.isdir(self.fullpath)
+
+    @property
     def mtime(self):
-        return os.path.getmtime(self.fullpath)
+        return time.localtime(os.path.getmtime(self.fullpath))
 
     def open(self):
         return open(self.fullpath, mode='r', encoding='utf8')
