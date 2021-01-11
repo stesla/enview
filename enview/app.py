@@ -15,7 +15,8 @@ from .markup import parse
 def logs(path):
     if isDir(path):
         ps = listLogs(path)
-        dirs = sorted([dir for dir in ps if dir.isdir], reverse=True)
+        dirs = sorted([dir for dir in ps if dir.isdir],
+                    key=lambda f: f.path, reverse=True)
         files = sorted([file for file in ps if not file.isdir],
                     key=lambda f: f.mtime, reverse=True)
         return render_template('directory.html', dirs=dirs, files=files)

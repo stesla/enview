@@ -20,16 +20,6 @@ class Log:
     def __str__(self):
         return os.path.basename(self.path)
 
-    def __eq__(self, obj):
-        if isinstance(obj, Log):
-            return self.path == obj.path
-        return False
-
-    def __lt__(self, obj):
-        if isinstance(obj, Log):
-            return self.path < obj.path
-        return NotImplemented
-
     @property
     def fullpath(self):
         return logPath(self.path)
