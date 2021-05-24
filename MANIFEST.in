@@ -1,0 +1,3 @@
+graft enview/static 
+graft enview/templates
+global-exclude *.pyc
