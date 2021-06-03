@@ -4,6 +4,16 @@ from pathlib import Path
 
 LOG_ROOT = Path(os.getenv("LOGS_ROOT", "~/rplogs")).expanduser()
 
+def grep(query, path):
+    def _grep():
+        for log in listLogs(path):
+            if log.isdir:
+                continue
+            lines = log.grep(query)
+            if lines:
+                yield (log, lines)
+    return list(_grep())
+
 def isDir(path):
     return os.path.isdir(logPath(path))
 
@@ -31,6 +41,17 @@ class Log:
     @property
     def mtime(self):
         return time.localtime(os.path.getmtime(self.fullpath))
+
+    def grep(self, query):
+        try:
+            results = []
+            with self.open() as f:
+                for line in f:
+                    if query in line:
+                        results.append(line)
+            return results
+        except:
+            return []
 
     def open(self):
         return open(self.fullpath, mode='r', encoding='utf8')
