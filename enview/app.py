@@ -43,7 +43,7 @@ def search(path):
         (urljoin('/', path, str(log)), str(log), ''.join(t.to_html() for t in parse("\n".join(lines))))
         for (log, lines) in sorted([result for result in grep_results], key=lambda f: str(f[0]))
     ]
-    return render_template('search.html', crumbs=crumbs(path), results=results)
+    return render_template('search.html', crumbs=crumbs(path), results=results, query=query)
 
 @app.template_filter()
 def datetime(value):
