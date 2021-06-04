@@ -38,9 +38,10 @@ def logs(path):
 def search(path):
     logger.info(f'PATH = {repr(path)}')
     query = request.args.get('q')
+    grep_results = grep(query, path)
     results = [
         (urljoin('/', path, str(log)), str(log), ''.join(t.to_html() for t in parse("\n".join(lines))))
-        for (log, lines) in grep(query, path)
+        for (log, lines) in sorted([result for result in grep_results], key=lambda f: str(f[0]))
     ]
     return render_template('search.html', crumbs=crumbs(path), results=results)
 
