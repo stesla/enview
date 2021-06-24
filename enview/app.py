@@ -11,7 +11,7 @@ app = Flask(__name__)
 from werkzeug.exceptions import NotFound
 
 from .logs import grep, isDir, listLogs, Log
-from .markup import parse
+from .markup import parse_html
 
 @app.route('/favicon.ico')
 def favicon():
@@ -30,7 +30,7 @@ def logs(path):
     else:
         with Log(path).open() as f:
             text = f.read()
-        html = ''.join(t.to_html() for t in parse(text))
+        html = parse_html(text)
         return render_template('log.html', crumbs=crumbs(path), path=path, html=html)
 
 @app.route('/search/', methods=['GET'], defaults={'path': ''})
@@ -40,7 +40,7 @@ def search(path):
     query = request.args.get('q')
     grep_results = grep(query, path)
     results = [
-        (urljoin('/', path, str(log)), str(log), ''.join(t.to_html() for t in parse("\n".join(lines))))
+        (urljoin('/', path, str(log)), str(log), parse_html("\n".join(lines)))
         for (log, lines) in sorted([result for result in grep_results], key=lambda f: str(f[0]))
     ]
     return render_template('search.html', crumbs=crumbs(path), results=results, query=query)

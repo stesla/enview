@@ -2,6 +2,8 @@ import os
 import time
 from pathlib import Path
 
+from .markup import parse_text
+
 LOG_ROOT = Path(os.getenv("LOGS_ROOT", "~/rplogs")).expanduser()
 
 def grep(query, path):
@@ -47,7 +49,7 @@ class Log:
             results = []
             with self.open() as f:
                 for line in f:
-                    if query in line:
+                    if query in parse_text(line):
                         results.append(line)
             return results
         except:

@@ -42,6 +42,12 @@ def parse(text):
     ts.append(t)
     return ts
 
+def parse_html(text):
+    return ''.join(t.to_html() for t in parse(text))
+
+def parse_text(text):
+    return ''.join(t.text for t in parse(text))
+
 class ParseError(Exception):
     pass
 
