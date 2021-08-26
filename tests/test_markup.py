@@ -9,7 +9,7 @@ def test_parse_plain():
 def test_parse_low_colors():
     assert parse('some\x1b[36;44mcolor') == [Text('some'), Text('color', bg='#000080', fg='#008080')]
 
-def test_parse_low_colors():
+def test_parse_high_colors():
     assert parse('some\x1b[96;104mcolor') == [Text('some'), Text('color', bg='#0000ff', fg='#00ffff')]
 
 def test_parse_256_low():
